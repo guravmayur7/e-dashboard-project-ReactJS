@@ -20,6 +20,24 @@
   width: 100%;
   background-color: #61dafb;
 }
+.inputBlock{
+  display: block;
+  margin: 25px;
+  padding: 7px;
+  width: 300px;
+  border: 1px solid #61dafb;
+}
+.signUp{
+  margin-left: 30%;
+}
+.submitButton{
+  margin: 25px;
+  padding: 10px;
+  width: 150px;
+  background-color: #61dafb;
+  border: 1px solid;
+  cursor: pointer;
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
