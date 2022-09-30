@@ -1,11 +1,25 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [pwd, setPassword] = useState("");
+  const navigate = useNavigate();
   const collectData = () => {
-    console.log(name, email, password);
+    console.log(name, email, pwd);
+    fetch("http://localhost:5000/register", {
+      method: "post",
+      body: JSON.stringify({ name, email, pwd }),
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    }).then((response) => {
+      const result = response.json();
+      if (result) {
+        navigate("/");
+      }
+    });
   };
 
   return (
@@ -30,7 +44,7 @@ const Signup = () => {
         type="password"
         placeholder="Eter Password"
         onChange={(e) => setPassword(e.target.value)}
-        value={password}
+        value={pwd}
       />
       <button className="submitButton" onClick={collectData}>
         Signup
