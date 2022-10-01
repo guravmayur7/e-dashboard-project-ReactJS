@@ -1,25 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    const auth = localStorage.getItem("user");
+    if (auth) {
+      navigate("/");
+    }
+  });
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [pwd, setPassword] = useState("");
-  const navigate = useNavigate();
-  const collectData = () => {
-    console.log(name, email, pwd);
-    fetch("http://localhost:5000/register", {
-      method: "post",
-      body: JSON.stringify({ name, email, pwd }),
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-    }).then((response) => {
-      const result = response.json();
-      if (result) {
-        navigate("/");
-      }
-    });
+  const collectData = async () => {
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: name, email: email, pwd: pwd }),
+    };
+    let result = await fetch("http://localhost:5000/register", requestOptions);
+    result = await result.json();
+    localStorage.setItem("user", JSON.stringify(result));
+    navigate("/");
+
+    // .then((response) => {
+    //   debugger;
+    //   const result = response.json();
+    //   if (result) {
+    //     localStorage.setItem("user", JSON.stringify(result));
+    //     navigate("/");
+    //   }
+    // })
+    // .catch((errror) => {
+    //   console.log(errror);
+    // });
   };
 
   return (

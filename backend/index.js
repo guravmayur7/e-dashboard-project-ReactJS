@@ -11,6 +11,14 @@ app.post("/register", async (req, resp) => {
   const result = await userData.save();
   resp.send(result);
 });
+app.post("/login", async (req, resp) => {
+  const user = await User.findOne(req.body).select("-pwd");
+  if (user) {
+    resp.send(user);
+  } else {
+    resp.send({ result: "No user found" });
+  }
+});
 
 // const connectDB = async () => {
 //   mongoose.connect("mongodb://0.0.0.0:27017/e-commerce");
