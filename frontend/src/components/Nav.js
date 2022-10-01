@@ -24,7 +24,7 @@ const Nav = () => {
         </li>
         <li>
           {auth ? (
-            <Link to="/logout" onClick={logout}>
+            <Link to="/signup" onClick={logout}>
               Logout
             </Link>
           ) : (
