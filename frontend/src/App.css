@@ -2,7 +2,13 @@
   display: inline-block;
   padding: 10px;
 }
-
+.logo{
+  width: 60px;
+  border-radius: 50%;
+  float: left;
+  margin-top: 3px;
+  margin-left: 20px;
+}
 .nav-ul {
   padding: 5px;
   margin: 0px;
@@ -12,6 +18,9 @@
   color: #fff;
   padding: 5px;
   text-decoration: none;
+}
+.nav-right{
+  text-align: right;
 }
 .footer {
   position: absolute;
@@ -28,6 +37,10 @@
   border: 1px solid #61dafb;
 }
 .signUp{
+  margin-left: 30%;
+}
+.login{
+  margin-top: 100px;
   margin-left: 30%;
 }
 .submitButton{

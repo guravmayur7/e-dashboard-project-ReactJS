@@ -22,18 +22,6 @@ const Signup = () => {
     result = await result.json();
     localStorage.setItem("user", JSON.stringify(result));
     navigate("/");
-
-    // .then((response) => {
-    //   debugger;
-    //   const result = response.json();
-    //   if (result) {
-    //     localStorage.setItem("user", JSON.stringify(result));
-    //     navigate("/");
-    //   }
-    // })
-    // .catch((errror) => {
-    //   console.log(errror);
-    // });
   };
 
   return (

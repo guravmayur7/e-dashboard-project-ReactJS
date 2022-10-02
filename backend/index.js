@@ -12,7 +12,8 @@ app.post("/register", async (req, resp) => {
   resp.send(result);
 });
 app.post("/login", async (req, resp) => {
-  const user = await User.findOne(req.body).select("-pwd");
+  let user = await User.findOne(req.body).select("-pwd");
+  console.log(user);
   if (user) {
     resp.send(user);
   } else {
