@@ -36,7 +36,7 @@
   width: 300px;
   border: 1px solid #61dafb;
 }
-.signUp{
+.signUp, .product{
   margin-left: 30%;
 }
 .login{
@@ -71,6 +71,25 @@
 
 .App-link {
   color: #61dafb;
+}
+.error {
+  color: red;
+  margin-top: -20px;
+  display: block;
+  margin-left: 20px;
+}
+.product-list{
+  text-align: center;
+  margin-top: 50px;
+}
+.product-list ul li {
+  display: inline-block;
+  border: 1px solid skyblue;
+  padding: 5px;
+  width: 150px;
+}
+.product-list ul {
+ margin: 0px;
 }
 
 @keyframes App-logo-spin {

@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 require("./DB/config");
 const User = require("./DB/User");
+const Product = require("./DB/Product");
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -20,16 +21,21 @@ app.post("/login", async (req, resp) => {
     resp.send({ result: "No user found" });
   }
 });
+//product routes
+app.post("/add-product", async (req, resp) => {
+  let product = new Product(req.body);
+  let result = await product.save();
+  resp.send(result);
+});
 
-// const connectDB = async () => {
-//   mongoose.connect("mongodb://0.0.0.0:27017/e-commerce");
-//   const productSchema = new mongoose.Schema({});
-//   const product = mongoose.model("products", productSchema);
-//   const data = await product.find();
-//   console.warn(data);
-// };
-// connectDB();
-// app.get("/", (req, resp) => {
-//   resp.send("App is setup in backend");
-// });
+app.get("/get-product", async (req, resp) => {
+  let products = await Product.find();
+  if (products.length > 0) {
+    resp.send(products);
+  }
+  {
+    resp.send("No records found");
+  }
+});
+
 app.listen(5000);
