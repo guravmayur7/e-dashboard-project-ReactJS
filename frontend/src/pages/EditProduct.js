@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-const AddProduct = () => {
+const EditProduct = () => {
+  useEffect(() => {
+    getProductDetails();
+  }, []);
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [company, setCompany] = useState("");
   const [category, setCategory] = useState("");
   const [error, setError] = useState(false);
   const auth = localStorage.getItem("user");
+  const params = useParams();
   const navigate = useNavigate();
   const collectData = async () => {
     if (!name || !category || !price || !company) {
@@ -15,7 +19,7 @@ const AddProduct = () => {
       return false;
     }
     const requestOptions = {
-      method: "POST",
+      method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         name: name,
@@ -26,11 +30,27 @@ const AddProduct = () => {
       }),
     };
     let result = await fetch(
-      "http://localhost:5000/add-product",
+      `http://localhost:5000/update-product/${params.id}`,
       requestOptions
     );
     result = await result.json();
-    navigate("/");
+    if (result) {
+      navigate("/");
+    } else {
+      alert("product not updated");
+    }
+  };
+  const getProductDetails = async () => {
+    let result = await fetch(`http://localhost:5000/edit-product/${params.id}`);
+    result = await result.json();
+    if (result) {
+      setName(result.name);
+      setPrice(result.price);
+      setCompany(result.company);
+      setCategory(result.category);
+    } else {
+      alert("no result found");
+    }
   };
 
   return (
@@ -70,9 +90,9 @@ const AddProduct = () => {
         <span className="error">Enter Valid Category</span>
       )}
       <button className="submitButton" onClick={collectData}>
-        Add Product
+        Update Product
       </button>
     </div>
   );
 };
-export default AddProduct;
+export default EditProduct;
