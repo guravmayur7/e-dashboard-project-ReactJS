@@ -91,6 +91,13 @@
 .product-list ul {
  margin: 0px;
 }
+.search-product-txt {
+  width: 400px;
+  margin: 20px;
+  height: 40px;
+  border: 1px solid skyblue;
+  padding-left: 20px;
+}
 
 @keyframes App-logo-spin {
   from {

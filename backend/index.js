@@ -60,5 +60,14 @@ app.put("/update-product/:id", async (req, resp) => {
     resp.send({ result: "No data Found" });
   }
 });
+ app.get("/search/:key", async (req, resp)=>{
+  let result = await Product.find({
+    "$or":[
+      { name:{$regex:req.params.key} },
+      { company:{$regex:req.params.key} }
+    ]
+  });
+  resp.send(result);
+ });
 
 app.listen(5000);
