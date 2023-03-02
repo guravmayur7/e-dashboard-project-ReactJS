@@ -7,13 +7,20 @@ const ProductList = () => {
     getProducts();
   }, []);
   const getProducts = async () => {
-    let result = await fetch("http://localhost:5000/get-product");
+    let result = await fetch("http://localhost:5000/get-product",{
+      headers : {
+        authorization : "bareer "+JSON.parse(localStorage.getItem('token'))
+      }
+    });
     result = await result.json();
     setProducts(result);
   };
   const deleteProduct = async (id) => {
     let result = await fetch(`http://localhost:5000/product/${id}`, {
       method: "Delete",
+      headers : {
+        authorization : "bareer "+JSON.parse(localStorage.getItem('token'))
+      }
     });
     result = await result.json();
     if (result) {
@@ -23,7 +30,11 @@ const ProductList = () => {
   const searchProduct = async (event) =>{
     let key = event.target.value;
     if (key) {
-      let result = await fetch(`http://localhost:5000/search/${key}`);
+      let result = await fetch(`http://localhost:5000/search/${key}`,{
+        headers : {
+          authorization : "bareer "+JSON.parse(localStorage.getItem('token'))
+        }
+      });
       result = await result.json();
       if (result) {
         setProducts(result);
@@ -38,9 +49,9 @@ const ProductList = () => {
   return (
     <div className="product-list">
       <h1>Product List</h1>
-      <input type="text" className="search-product-txt" placeholder="Search Product" 
-      onChange={searchProduct}
-      />
+      {/* <input type="text" className="search-product-txt" placeholder="Search Product" 
+      onChange={searchProduct} 
+      /> */}
       <ul>
         <li>Sr.No</li>
         <li>Name</li>

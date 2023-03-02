@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const AddProduct = () => {
@@ -16,7 +16,10 @@ const AddProduct = () => {
     }
     const requestOptions = {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json",
+          authorization : "bareer "+JSON.parse(localStorage.getItem('token'))
+      },
       body: JSON.stringify({
         name: name,
         price: price,
@@ -25,11 +28,10 @@ const AddProduct = () => {
         userId: JSON.parse(auth)._id,
       }),
     };
-    let result = await fetch(
+    await fetch(
       "http://localhost:5000/add-product",
       requestOptions
     );
-    result = await result.json();
     navigate("/");
   };
 

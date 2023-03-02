@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 const EditProduct = () => {
   useEffect(() => {
     getProductDetails();
-  }, []);
+  });
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [company, setCompany] = useState("");
@@ -20,7 +20,10 @@ const EditProduct = () => {
     }
     const requestOptions = {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json", 
+        authorization : "bareer "+JSON.parse(localStorage.getItem('token')) 
+      },
       body: JSON.stringify({
         name: name,
         price: price,
@@ -41,7 +44,12 @@ const EditProduct = () => {
     }
   };
   const getProductDetails = async () => {
-    let result = await fetch(`http://localhost:5000/edit-product/${params.id}`);
+    let result = await fetch(`http://localhost:5000/edit-product/${params.id}`,{
+      headers: { 
+        "Content-Type": "application/json", 
+        authorization : "bareer "+JSON.parse(localStorage.getItem('token')) 
+      },
+    });
     result = await result.json();
     if (result) {
       setName(result.name);

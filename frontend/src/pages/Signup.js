@@ -20,7 +20,8 @@ const Signup = () => {
     };
     let result = await fetch("http://localhost:5000/register", requestOptions);
     result = await result.json();
-    localStorage.setItem("user", JSON.stringify(result));
+    localStorage.setItem("user", JSON.stringify(result.result));
+    localStorage.setItem("token", JSON.stringify(result.auth));
     navigate("/");
   };
 
