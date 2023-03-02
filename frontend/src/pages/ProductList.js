@@ -49,9 +49,9 @@ const ProductList = () => {
   return (
     <div className="product-list">
       <h1>Product List</h1>
-      {/* <input type="text" className="search-product-txt" placeholder="Search Product" 
+      <input type="text" className="search-product-txt" placeholder="Search Product" 
       onChange={searchProduct} 
-      /> */}
+      />
       <ul>
         <li>Sr.No</li>
         <li>Name</li>
