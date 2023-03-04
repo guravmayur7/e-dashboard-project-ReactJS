@@ -8,9 +8,8 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 const Jwt = require("jsonwebtoken");
-const jwtKey = 'ecommerce';
-
-
+const jwtKey = "ecommerce";
+const path = require("path");
 
 app.post("/register", async (req, resp) => {
   const userData = new User(req.body);
@@ -19,26 +18,26 @@ app.post("/register", async (req, resp) => {
   delete result.pwd;
   //resp.send(result);
   if (result) {
-    Jwt.sign({result}, jwtKey, {expiresIn: "2h"}, (err, token)=>{
-     if (err) {
-       resp.send({ result: "Something went wrong" });    
-     }
-     
-     resp.send({result, auth : token});
-    })
- } else {
-   resp.send({ result: "No user found" });
- }
+    Jwt.sign({ result }, jwtKey, { expiresIn: "2h" }, (err, token) => {
+      if (err) {
+        resp.send({ result: "Something went wrong" });
+      }
+
+      resp.send({ result, auth: token });
+    });
+  } else {
+    resp.send({ result: "No user found" });
+  }
 });
 app.post("/login", async (req, resp) => {
   let user = await User.findOne(req.body).select("-pwd");
   if (user) {
-     Jwt.sign({user}, jwtKey, {expiresIn: "2h"}, (err, token)=>{
+    Jwt.sign({ user }, jwtKey, { expiresIn: "2h" }, (err, token) => {
       if (err) {
-        resp.send({ result: "Something went wrong" });    
+        resp.send({ result: "Something went wrong" });
       }
-      resp.send({user, auth : token});
-     })
+      resp.send({ user, auth: token });
+    });
   } else {
     resp.send({ result: "No user found" });
   }
@@ -82,32 +81,34 @@ app.put("/update-product/:id", verifyToken, async (req, resp) => {
     resp.send({ result: "No data Found" });
   }
 });
- app.get("/search/:key", async (req, resp)=>{
+app.get("/search/:key", async (req, resp) => {
   let result = await Product.find({
-    "$or":[
-      { name:{$regex:req.params.key} },
-      { company:{$regex:req.params.key} }
-    ]
+    $or: [
+      { name: { $regex: req.params.key } },
+      { company: { $regex: req.params.key } },
+    ],
   });
   resp.send(result);
- });
+});
 
- function verifyToken(req, resp ,next) {
-  let token = req.headers['authorization'];
+function verifyToken(req, resp, next) {
+  let token = req.headers["authorization"];
   if (token) {
-    token = token.split(' ')[1];
-    Jwt.verify(token, jwtKey, (err, valid)=>{
+    token = token.split(" ")[1];
+    Jwt.verify(token, jwtKey, (err, valid) => {
       if (err) {
-        resp.send({result: "invalid token found"});
-      }
-      else{
+        resp.send({ result: "invalid token found" });
+      } else {
         next();
       }
     });
+  } else {
+    resp.send({ result: "token not found in request header" });
   }
-  else{
-    resp.send({result : "token not found in request header"});
-  }
- }
+}
 
+app.use(express.static(path.join(__dirname, "./frontend/build")));
+app.get("*", function (req, resp) {
+  resp.sendFile(path.join(__dirname, "./frontend/build/index.html"));
+});
 app.listen(5000);
